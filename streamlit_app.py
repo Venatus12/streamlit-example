@@ -30,6 +30,26 @@ Wij hebben gekeken naar:
 - Het budget, de omzet en de winst van Netflix films
 """)
 
+
+st.markdown('## Data importeren')
+st.write('Voor het verkrijgen van de dataset hebben we onderstaande code gebruikt. Om de Kaggle API te gebruiken moet er een kaggle-api-key worden aangemaakt. Dit kan alleen als je een account op Kaggle hebt. Vervolgens kan je de dataset naar keuze ophalen en downloaden van het web.')
+api_code ="""
+import os
+os.environ['KAGGLE_USERNAME'] = "<your-kaggle-username>"
+os.environ['KAGGLE_KEY'] = "<your-kaggle-api-key>"
+
+from kaggle.api.kaggle_api_extended import KaggleApi
+api = KaggleApi()
+api.authenticate()
+
+api.dataset_download_file('victorsoeiro/netflix-tv-shows-and-movie', file_name='titles.csv') # Netflix movies/series
+api.dataset_download_file('akshaypawar7/millions-of-movies', file_name='movies.csv') # TMDb movies
+
+# # https://towardsdatascience.com/downloading-datasets-from-kaggle-for-your-ml-project-b9120d405ea4
+"""
+
+
+
 st.markdown('# Data manipulatie')
 
 # COR OMZET
