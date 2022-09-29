@@ -8,44 +8,92 @@ import seaborn as sns
 import plotly.express as px
 import numpy as np
 
+st.markdown('# Introductie')
+st.write('Voor de dashboard-opdracht hebben wij gekozen voor het bestuderen van Netflix films. '
+         'Met zo’n 220 miljoen abonnees, 3.744 films, en zo’n 70 originele films, '
+         'is Netflix de meest populaire video streaming dienst ter wereld. Via Kaggle hebben wij de meest recente Netflix films & series dataset verkregen. '
+         'Deze dataset bevat onder meer: de titel, jaar van uitgave, tijdsduur, genres keywords, imbd score, imbd votes, tmdb populariteit en score van '
+         'series en films tussen 1954 em 2022. Ook hebben we via Kaggle een dataset verkregen waar alle films in The Movie Database (TMDb) zijn verzameld.'
+         'Deze dataset bevat: titel, jaar van uitgave, tmdb populariteit, buget, winst, en nog eens 14 andere factoren.')
 
+st.write('Wij hebben gekeken naar:'
+         '- Het verschil in tijdsduur tussen genres'
+         '- Welke genre is het meest populaire op Netflix'
+         '- In welk jaar zijn de meeste films uitgekomen'
+         '- Hoe populaire zijn de nieuwste film'
+         '- Het budget, de omzet en de winst van Netflix films')
+
+st.markdown('# Data manipulatie')
+
+# COR OMZET
+st.markdown('## Omzetten van IMDb ID')
+st.write("Omdat wij graag willen kijken naar de bugget en winst van elke Netflix film hebben wij een andere dataset nodig. "
+         "De Netflix-dataset bevat immers niet de winsten en buggeten van films. Een database die deze twee wel bevat is de "
+         "The Movie Database (TMDb). Elke film in deze dataset bevat een unieke TMDb ID nummer die we kunnen koppelen aan de Netflix-dataset. "
+         "Echter is er een kwestie: de Netflix dataset bevat geen TMDb ID, maar een IMDb ID. Door middel van de TMDb API kunnen we de IMDb ID "
+         "omzetten naar de TMDb ID aan de hand van de /find methode van de TMDb API. De functies hieronder zet de IMDb ID's in de Netflix dataset onm in TMDb ID's. "
+         "Omdat een aantal Netflixfilms geen IMDb ID bevatten, hebben we de TMDb ID's verkregen aan de hand van de title en jaar van uitgaven van elke film. "
+         "Bij Netflixfilms waar geen TMDb ID verkregen kon worden, werd een 'NO_MATCH' string gegeven.")
+
+transfor1_code = """
+def imdbid_to_tmdbid(row):
+    api_key = '4412429954772dcd3e31d27135911113'
+
+    # Alle films (row) waar de imdb_id is aanwezig wordt de title en id geisoleerd.
+    if row['imdb_id'] != None and pd.notna(row['imdb_id']):
+        imdb_id = row['imdb_id']
+        title = row['title']
+
+        # Vervolgens wordt de TMDb ID via de TMDb-API opgevraagd aan de hand van de imdb_id.
+        api_request = f'https://api.themoviedb.org/3/find/{imdb_id}?api_key={api_key}&external_source=imdb_id'
+        data = requests.get(url=api_request).json()['movie_results']
+
+        # TMDb ID en title wordt verkregen uit de data.json. Wanneer de filmtitle uit de data.json
+        # overeenkomt met de gegeven filmtitle wordt de TMDb ID toegewezen aan de film.
+        if data:
+            tmdb_id = data[0]['id']
+            tmdb_title = data[0]['title']
+            if title == tmdb_title:
+                row['tmdb_id'] = tmdb_id
+
+    # De aangepaste film met de nieuwe TMDb ID wordt teruggegeven.
+    return row
 """
-# Welcome to Streamlit!
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
+transfor2_code = """
+def id_by_title(row):
+    api_key = '4412429954772dcd3e31d27135911113'
 
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+    # Alle films (row) waar de TMDb ID niet is verkregen via de IMDb ID.
+    if pd.isna(row['tmdb_id']):
+        title = row['title']
+        year = row['release_year']
 
-In the meantime, below is an example of what you can do with just a few lines of code:
+        # Vervolgens wordt de TMDb ID via de TMDb-API opgevraagd aan de hand van de film title en jaar van uitgave.
+        api_request = f'http://api.themoviedb.org/3/search/movie?api_key={api_key}&query={title}&year={year}'
+        data = requests.get(url=api_request).json()
+
+        # Wanneer de TMDb ID nogmaals niet kan worden verkregen, betekend het dat er geen match is tussen de TMDb en de Netflix film.
+        if len(data['results']) == 0:
+            row['tmdb_id'] = 'NO_MATCH'
+            return row
+
+        if len(data['results']) >= 0:
+            id = data['results'][0]['id']
+            row['tmdb_id'] = id
+
+    return row
 """
 
+st.code(transfor1_code, language='python')
+st.code(transfor2_code, language='python')
 
-
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
-
-    Point = namedtuple('Point', 'x y')
-    data = []
-
-    points_per_turn = total_points / num_turns
-
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
-
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
-    
-    
-# Opmerking over de code
-st.write('Met behulp van de onderstaande code worden de kolommen "budget" en "revenue" uit de movies dataset samengevoegd met de netflix films dataset. Allereerst wordt er een aparte dataset gemaakt met "budget", "revenue" en "id". Vervolgens wordt er met behulp van de kolom "id" die zich in beide datasets bevindt, beide datasets samengevoegd. Vervolgens wordt er nog een nieuwe kolom "winst" toegevoegd door het budget van de omzet af te trekken. Tot slot verwijderen we alle NaN waardes die de waarde 0 hadden gekregen, omdat deze ons niks kunnen vertellen over de data.')
+# JADE MERGE
+st.markdown('## Samenvoegen van datasets')
+st.write('Met behulp van de onderstaande code worden de budget en revenue uit de TMDb dataset samengevoegd met de Netflix dataset. '
+         'Allereerst wordt TMDb dataset gefilterd op "budget", "revenue" en "id". Vervolgens wordt er met behulp van de "id", die '
+         'zich in beide datasets bevindt, de datasets samengevoegd. Vervolgens wordt er een nieuwe kolom "winst" gemaakt door het budget '
+         'van de omzet af te trekken. Tot slot verwijderen we alle NaN waardes die de waarde 0 hebben gekregen, omdat deze ons niks kunnen vertellen over de data.')
 
 merge_code = '''
 # Verander de waardes van de kolom tmdb_id van een float naar een integer
@@ -74,4 +122,4 @@ df = df1[df1.revenue != 0.0]
 df = df1[df1.budget != 0.0]
 '''
 
-st.code(merge_code)
+st.code(merge_code, language='python')
