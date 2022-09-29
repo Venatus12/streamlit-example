@@ -351,7 +351,7 @@ Hieronder is een scatterplot weergegeven van de TMDb score en populariteit van n
 data = netflix
 
 # Misschien moet de kolom genres specifiek worden aangegeven.
-option = st.multiselect("Genres", data)
+option = st.multiselect("Genres", genres_list)
 plot_data = netflix[netflix['genre1'].isin(option)]
 
 fig2 = px.scatter(data_frame=plot_data, x='tmdb_popularity', y='tmdb_score', log_x=True, color='genre1',
