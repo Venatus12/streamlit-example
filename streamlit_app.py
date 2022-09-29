@@ -7,6 +7,8 @@ import pandas as pd
 import seaborn as sns
 import plotly.express as px
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 netflix = pd.read_csv('netflixwinst.csv')
 genre_data = pd.read_csv('genre_data.csv', index_col=0)
