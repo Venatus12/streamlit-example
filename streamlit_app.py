@@ -8,6 +8,7 @@ import seaborn as sns
 import plotly.express as px
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
 
 
 netflix = pd.read_csv('netflixwinst.csv')
@@ -230,20 +231,19 @@ st.write('In onderstaand figuur zijn vier histogrammen afgebeeld met daarin de t
 
 st.write('Wanneer we naar de populariteit van alle Netflix films kijken, is te zien dat de meeste Netflix films een TMDb populariteit van minder dan 1000 hebben. De gemiddelde score van Netflix films ligt tussen de 6 en 7.')
 
-sns.set_theme(style='white')
+# sns.set_theme(style='white')
+# fig, axes = plt.subplots(2, 2, figsize=(18,12), dpi=80)
+# sns.set(font_scale = 1.2)
+# sns.histplot(data=netflix, x='runtime', ax=axes[0][0], kde=True, element='step', color='b').set(title='Tijdsduur van films in min', xlabel=None)
+# sns.histplot(data=netflix, x='imdb_score', ax=axes[1][0], kde=True, element='step', color='r').set(title='IMDb score', xlabel=None)
+# sns.histplot(data=netflix, x='tmdb_score', ax=axes[1][1], kde=True, element='step', color='g').set(title='TMDb score', xlabel=None)
+# sns.histplot(data=netflix, x='tmdb_popularity', ax=axes[0][1], kde=True, element='step', log_scale=True, color='gray').set(title='TMDb popularity', xlabel=None)
+# hist_combined = fig
+# plt.show()
 
-fig, axes = plt.subplots(2, 2, figsize=(18,12), dpi=80)
-sns.set(font_scale = 1.2)
+hist_combined = Image.open('hist_combined.png')
+st.image(hist_combined)
 
-sns.histplot(data=netflix, x='runtime', ax=axes[0][0], kde=True, element='step', color='b').set(title='Tijdsduur van films in min', xlabel=None)
-sns.histplot(data=netflix, x='imdb_score', ax=axes[1][0], kde=True, element='step', color='r').set(title='IMDb score', xlabel=None)
-sns.histplot(data=netflix, x='tmdb_score', ax=axes[1][1], kde=True, element='step', color='g').set(title='TMDb score', xlabel=None)
-sns.histplot(data=netflix, x='tmdb_popularity', ax=axes[0][1], kde=True, element='step', log_scale=True, color='gray').set(title='TMDb popularity', xlabel=None)
-
-hist_combined = fig
-plt.show()
-
-st.pyplot(hist_combined, use_container_widtdh=True)
 
 def data_per_genre_dict(dataset, genre_list):
     data_dict = {}
