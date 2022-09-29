@@ -340,9 +340,9 @@ In de boxplot is te zien dat de gemiddelde documentaire niet langer duurt dan ci
 Een ander genre dat uitspringt is horror. Een gemiddelde horrorfilm duurt niet langer dan 100 min en heeft gemiddeld de laagste TMDb score ten opzichte van andere genres. Ook is horror één van het meest populaire genres die gekeken wordt. Het is begrijpelijk dat een horror film niet de tijdsduur heeft dat vergelijkbaar is met een drama- of actiefilm, dat zou immer veel vergen van de kijker. Een horror verhoogd namelijk het stress niveau door middel van angst en kan zorgen voor vermoeidheid, slapeloosheid, en concentratieproblemen [[https://www.sciencedirect.com/science/article/pii/S1053811920300094?via%3Dihub,](https://www.sciencedirect.com/science/article/pii/S1053811920300094?via%3Dihub) [https://www.unitedconsumers.com/blog/gezondheid/gevolgen-van-stress.jsp](https://www.unitedconsumers.com/blog/gezondheid/gevolgen-van-stress.jsp)]. Het blijkt dus dat veel mensen graag horrorfilms kijken, alleen zijn er maar weinig die daadwerkelijk een goede horrorfilm zijn.
 """)
 
-st.pyplot(boxstipplot_runtime, use_container_widtdh=True)
-st.pyplot(boxstipplot_tmdb_score, use_container_widtdh=True)
-st.pyplot(boxstipplot_tmdb_popularity, use_container_widtdh=True)
+st.pyplot(boxstipplot_runtime)
+st.pyplot(boxstipplot_tmdb_score)
+st.pyplot(boxstipplot_tmdb_popularity)
 
 def set_genre(row):
     row['genre1'] = row['genres_list'][0]
