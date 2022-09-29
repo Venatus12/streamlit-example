@@ -48,7 +48,7 @@ api.dataset_download_file('akshaypawar7/millions-of-movies', file_name='movies.c
 
 # # https://towardsdatascience.com/downloading-datasets-from-kaggle-for-your-ml-project-b9120d405ea4
 """
-
+st.code(api_code, language='python')
 
 
 st.markdown('# Data manipulatie')
