@@ -365,3 +365,113 @@ scatter_score_pop = fig2
 fig2.show()
 
 st.plotly_chart(scatter_score_pop, use_container_widtdh=True)
+
+st.markdown("""## Populairiteit van de nieuwste films""")
+fig = px.histogram(netflix, x="release_year", title = 'Aantal films uit ieder release jaar')
+fig.add_annotation(x=2016,y=100,
+                   text="Op Netflix staan de meeste films uit 2016",
+                   showarrow=True,
+                   arrowhead=5)
+fig.show()
+
+hist_releases_year = fig
+
+st.plotly_chart(hist_releases_year, use_container_widtdh=True)
+
+df_counts = pd.DataFrame({'Count': netflix['release_year'].value_counts().sort_values()
+
+                          })
+df_counts = df_counts.reset_index()
+df_counts.rename(columns={'index': 'Year', 'Count': 'Count'}, inplace=True)
+df_counts.head()
+fig = px.scatter(df_counts, y="Year", x="Count", title = 'Aantal uitgebrachte films per jaar')
+fig.show()
+
+scatter_counts = fig
+st.plotly_chart(hist_releases_year, use_container_widtdh=True)
+
+st.write("Ieder jaar worden er nieuwe films uitgebracht. Logischerwijs worden er tegewoordig meer films uitgebracht dan in de jaren 80' of eerder. "
+            "In de bovenstaande visualisaties is gekeken naar de films op Netflix en hun release jaar. Allereerst valt op dat de meeste films op Netflix uit het jaar 2016 komen."
+            "Ook het jaar 2017 komt heel vaak terug. Oudere films (van voor de jaren 90') lijken minder vaak voor te komen")
+
+fig = px.scatter(df_counts, x='Year', y='Count',title='Populariteitsscore per release jaar',
+                 hover_data=['popularity', 'popularity'], color='popularity', color_continuous_scale='speed',
+                 labels={'pop':'population of Canada'}, height=400)
+fig.add_annotation(x=1961,y=5,
+                   text="In 1961 was de meest populaire film",
+                   showarrow=True,
+                   arrowhead=5)
+fig.add_annotation(x=2016,y=50,
+                   text="Nieuwere films zijn niet persé populairder",
+                   showarrow=True,
+                   arrowhead=5)
+fig.update_layout(
+    updatemenus=[
+        dict(
+            buttons=list([
+                dict(
+                    args=["type", "scatter"],
+                    label="Scatter Plot",
+                    method="restyle"
+                ),
+                dict(
+                    args=["type", "bar"],
+                    label="Bar Chart",
+                    method="restyle"
+                )
+            ]),
+            direction="down",
+        ),
+    ]
+)
+
+fig.show()
+
+scatter_year_count = fig
+st.plotly_chart(scatter_year_count, use_container_widtdh=True)
+
+
+st.write('Nadat er duidelijk was uit welk jaar de meeste films voorkomen zijn er andere analyses op los gelaten. '
+            'In de dataset is er ook een populariteits score voor iedere film. Deze data riep de volgende onderzoeksvraag op: zijn nieuwe films '
+            'populairder dan oudere films? Wanneer deze data bijelkaar gevoegd wordt komen er interessante gegevens uit. Zo is allereerst duidelijk '
+            'dat nieuwere films niet persé populairder zijn. Over het algemeen zijn films tussen 2008-2012 het populairst op Netflix.')
+
+fig = px.scatter(df_counts, x='Year', y='Count',title= 'Winst per jaar',
+                 hover_data=['winst'], color='winst', color_continuous_scale='Algae',
+                 labels={'pop':'population of Canada'}, height=400)
+fig.add_annotation(x=2016,y=50,
+                   text="Nieuwere films zijn heel winstgevend",
+                   showarrow=True,
+                   arrowhead=5)
+fig.add_annotation(x=2007,y=20,
+                   text="In 2007 is de meeste winst gegenereerd",
+                   showarrow=True,
+                   arrowhead=5)
+
+fig.update_layout(
+    updatemenus=[
+        dict(
+            buttons=list([
+                dict(
+                    args=["type", "scatter"],
+                    label="Scatter Plot",
+                    method="restyle"
+                ),
+                dict(
+                    args=["type", "bar"],
+                    label="Bar Chart",
+                    method="restyle"
+                )
+            ]),
+            direction="down",
+        ),
+    ]
+)
+fig.show()
+
+scatter_year_count2 = fig
+st.plotly_chart(scatter_year_count2, use_container_widtdh=True)
+
+st.write('Vervolgens is er ook gekeken naar een correlatie tussen de winst van een film en de populariteit. '
+         'In de bovenstaande figuur is de winstgevendheid per jaar weergegeven. Over het algemeen zijn nieuwere films winstgevender dan oudere films '
+         'Ondanks dat deze nieuwe films niet per definitie winstgevender zijn. In 2007 is echter de meeste winst gegenereerd ')
