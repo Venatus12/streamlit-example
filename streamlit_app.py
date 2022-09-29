@@ -278,59 +278,9 @@ genre_data = data_per_genre_dict(dataset=netflix, genre_list=genres_list)
 
 st.write('Hieronder zijn het aantal Netflix films per genre afgebeeld. Films met de genre: drama, comedy, thriller, action en romance zijn het meest aanwezig op Netflix. Reality, western, oorlog, sport en geschiedenis films komen minder voor op Netflix.')
 
-data = genre_data.T
-x = data.index
-y = data['movie'].sort_values(ascending=False)
+from PIL import Image
+bar_moviecount = Image.open('bar_moviecount.png')
 
-fig1 = px.bar(data_frame=data, x=x, y=y,
-              width=700, height=500,
-              title='Aantal films per genre op Netflix', template='simple_white', labels={'y':'Aantal films', 'index': 'Genre'})
-
-
-fig1.update_traces(hovertemplate = '%{label} <br>Aantal films: %{y}<extra></extra>')
-fig1.update_layout(hovermode="closest")
-
-bar_moviecount = fig1
-fig1.show()
-
-st.plotly_chart(bar_moviecount, use_container_widtdh=True)
-
-def BoxStipplot(dataset, var, xlabel_text, title_text, log=False):
-    sns.set_theme(style="ticks")
-    data = dataset.loc[var]
-
-    fig, ax = plt.subplots(figsize=(8, 10), dpi=110)
-
-    if log == True:
-        sns.boxplot(data=data, orient='h', showfliers=False,
-                    width=.6, palette="vlag").set(xscale='log')
-
-        sns.stripplot(data=data, orient='h', alpha=0.4,
-                      size=4, color=".3", linewidth=0, ).set(xscale='log')
-
-    else:
-        sns.boxplot(data=data, orient='h', showfliers=False,
-                    width=.6, palette="vlag")
-
-        sns.stripplot(data=data, orient='h', alpha= 0.4,
-                      size=4, color=".3", linewidth=0)
-
-
-    ax.set_yticklabels(['drama', 'thriller', 'action', 'crime', 'romance', 'comedy', 'fantasy',
-                        'horror', 'history', 'sport', 'documentation', 'scifi', 'family',
-                        'animation', 'western', 'european', 'music', 'war'], fontdict={'fontsize': 11})
-
-    sns.despine(trim=True, left=True)
-    ax.xaxis.grid(True)
-    ax.set_xlabel(xlabel_text)
-    ax.set_title(title_text)
-
-    return fig
-
-boxstipplot_runtime = BoxStipplot(genre_data, 'runtime', 'Tijdsduur in min', 'Tijdsduur film per genre')
-boxstipplot_imdb_score = BoxStipplot(genre_data, 'imdb_score', 'IMDb score', 'IMDb score per genre')
-boxstipplot_tmdb_score = BoxStipplot(genre_data, 'tmdb_score', 'TMDb score', 'TMDb score per genre')
-boxstipplot_tmdb_popularity = BoxStipplot(genre_data, 'tmdb_popularity', 'TMDb popularity (log)', 'TMDb popularity per genre', log=True)
 
 st.markdown("""
 In onderstaand figuur zijn boxplots weergegeven van de gemiddelde tijdsduur, populariteit, en scores van Netflix films per genre. Zoals het <histogram> al weergaf, duren de meeste Netflix films zo’n 90 tot 120 min. Met dit figuur kunnen we nu inzien dat veel Netflix films met een tijdduur van 30 tot 40 min, afkomstig zijn van de genres: comedy, fantasy, family, animation, en documentation. De significante spike aan Netflix films in het <histogram> rond 60 min kunnen we in de boxplot koppelen aan de genres: comedy, documentation, en animation.
@@ -340,9 +290,15 @@ In de boxplot is te zien dat de gemiddelde documentaire niet langer duurt dan ci
 Een ander genre dat uitspringt is horror. Een gemiddelde horrorfilm duurt niet langer dan 100 min en heeft gemiddeld de laagste TMDb score ten opzichte van andere genres. Ook is horror één van het meest populaire genres die gekeken wordt. Het is begrijpelijk dat een horror film niet de tijdsduur heeft dat vergelijkbaar is met een drama- of actiefilm, dat zou immer veel vergen van de kijker. Een horror verhoogd namelijk het stress niveau door middel van angst en kan zorgen voor vermoeidheid, slapeloosheid, en concentratieproblemen [[https://www.sciencedirect.com/science/article/pii/S1053811920300094?via%3Dihub,](https://www.sciencedirect.com/science/article/pii/S1053811920300094?via%3Dihub) [https://www.unitedconsumers.com/blog/gezondheid/gevolgen-van-stress.jsp](https://www.unitedconsumers.com/blog/gezondheid/gevolgen-van-stress.jsp)]. Het blijkt dus dat veel mensen graag horrorfilms kijken, alleen zijn er maar weinig die daadwerkelijk een goede horrorfilm zijn.
 """)
 
-st.pyplot(boxstipplot_runtime)
-st.pyplot(boxstipplot_tmdb_score)
-st.pyplot(boxstipplot_tmdb_popularity)
+boxstipplot_runtime = Image.open('boxstipplot_runtime.png')
+boxstipplot_tmdb_score = Image.open('boxstipplot_tmdb_score.png')
+boxstipplot_tmdb_popularity = Image.open('boxstipplot_tmdb_popularity.png')
+
+st.image(boxstipplot_runtime)
+st.image(boxstipplot_tmdb_score)
+st.image(boxstipplot_tmdb_popularity)
+
+
 
 def set_genre(row):
     row['genre1'] = row['genres_list'][0]
