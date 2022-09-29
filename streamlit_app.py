@@ -16,12 +16,14 @@ st.markdown('Voor de dashboard-opdracht hebben wij gekozen voor het bestuderen v
          'series en films tussen 1954 em 2022. Ook hebben we via Kaggle een dataset verkregen waar alle films in The Movie Database (TMDb) zijn verzameld.'
          'Deze dataset bevat: titel, jaar van uitgave, tmdb populariteit, buget, winst, en nog eens 14 andere factoren.')
 
-st.markdown('Wij hebben gekeken naar:'
-         '- Het verschil in tijdsduur tussen genres'
-         '- Welke genre is het meest populaire op Netflix'
-         '- In welk jaar zijn de meeste films uitgekomen'
-         '- Hoe populaire zijn de nieuwste film'
-         '- Het budget, de omzet en de winst van Netflix films')
+st.markdown("""
+Wij hebben gekeken naar:
+- Het verschil in tijdsduur tussen genres
+- Welke genre is het meest populaire op Netflix
+- In welk jaar zijn de meeste films uitgekomen
+- Hoe populaire zijn de nieuwste film'
+- Het budget, de omzet en de winst van Netflix films
+""")
 
 st.markdown('# Data manipulatie')
 
