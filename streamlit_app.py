@@ -278,8 +278,22 @@ genre_data = data_per_genre_dict(dataset=netflix, genre_list=genres_list)
 
 st.write('Hieronder zijn het aantal Netflix films per genre afgebeeld. Films met de genre: drama, comedy, thriller, action en romance zijn het meest aanwezig op Netflix. Reality, western, oorlog, sport en geschiedenis films komen minder voor op Netflix.')
 
-from PIL import Image
-bar_moviecount = Image.open('bar_moviecount.png')
+data = genre_data.T
+x = data.index
+y = data['movie'].sort_values(ascending=False)
+
+fig1 = px.bar(data_frame=data, x=x, y=y,
+              width=700, height=500,
+              title='Aantal films per genre op Netflix', template='simple_white', labels={'y':'Aantal films', 'index': 'Genre'})
+
+
+fig1.update_traces(hovertemplate = '%{label} <br>Aantal films: %{y}<extra></extra>')
+fig1.update_layout(hovermode="closest")
+
+bar_moviecount = fig1
+fig1.show()
+
+st.plotly_chart(bar_moviecount, use_container_widtdh=True)
 
 
 st.markdown("""
