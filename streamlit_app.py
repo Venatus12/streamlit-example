@@ -394,6 +394,9 @@ st.write("Ieder jaar worden er nieuwe films uitgebracht. Logischerwijs worden er
             "In de bovenstaande visualisaties is gekeken naar de films op Netflix en hun release jaar. Allereerst valt op dat de meeste films op Netflix uit het jaar 2016 komen."
             "Ook het jaar 2017 komt heel vaak terug. Oudere films (van voor de jaren 90') lijken minder vaak voor te komen")
 
+df_counts['popularity'] = netflix['tmdb_popularity']
+df_counts.head()
+
 fig = px.scatter(df_counts, x='Year', y='Count',title='Populariteitsscore per release jaar',
                  hover_data=['popularity', 'popularity'], color='popularity', color_continuous_scale='speed',
                  labels={'pop':'population of Canada'}, height=400)
@@ -435,6 +438,10 @@ st.write('Nadat er duidelijk was uit welk jaar de meeste films voorkomen zijn er
             'In de dataset is er ook een populariteits score voor iedere film. Deze data riep de volgende onderzoeksvraag op: zijn nieuwe films '
             'populairder dan oudere films? Wanneer deze data bijelkaar gevoegd wordt komen er interessante gegevens uit. Zo is allereerst duidelijk '
             'dat nieuwere films niet persé populairder zijn. Over het algemeen zijn films tussen 2008-2012 het populairst op Netflix.')
+
+df_counts['winst'] = netflix['winst']
+df_counts.head()
+
 
 fig = px.scatter(df_counts, x='Year', y='Count',title= 'Winst per jaar',
                  hover_data=['winst'], color='winst', color_continuous_scale='Algae',
