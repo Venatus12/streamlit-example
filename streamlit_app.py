@@ -243,7 +243,7 @@ sns.histplot(data=netflix, x='tmdb_popularity', ax=axes[0][1], kde=True, element
 hist_combined = fig
 plt.show()
 
-st.plotly_chart(hist_combined, use_container_widtdh=True)
+st.pyplot(hist_combined, use_container_widtdh=True)
 
 def data_per_genre_dict(dataset, genre_list):
     data_dict = {}
