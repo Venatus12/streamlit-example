@@ -482,3 +482,8 @@ st.plotly_chart(scatter_year_count2, use_container_widtdh=True)
 st.write('Vervolgens is er ook gekeken naar een correlatie tussen de winst van een film en de populariteit. '
          'In de bovenstaande figuur is de winstgevendheid per jaar weergegeven. Over het algemeen zijn nieuwere films winstgevender dan oudere films '
          'Ondanks dat deze nieuwe films niet per definitie winstgevender zijn. In 2007 is echter de meeste winst gegenereerd ')
+
+
+st.markdown('##Extras')
+st.slider('Pick a number', 0, 100)
+st.checkbox('I agree')
