@@ -9,14 +9,14 @@ import plotly.express as px
 import numpy as np
 
 st.markdown('# Introductie')
-st.write('Voor de dashboard-opdracht hebben wij gekozen voor het bestuderen van Netflix films. '
+st.markdown('Voor de dashboard-opdracht hebben wij gekozen voor het bestuderen van Netflix films. '
          'Met zo’n 220 miljoen abonnees, 3.744 films, en zo’n 70 originele films, '
          'is Netflix de meest populaire video streaming dienst ter wereld. Via Kaggle hebben wij de meest recente Netflix films & series dataset verkregen. '
          'Deze dataset bevat onder meer: de titel, jaar van uitgave, tijdsduur, genres keywords, imbd score, imbd votes, tmdb populariteit en score van '
          'series en films tussen 1954 em 2022. Ook hebben we via Kaggle een dataset verkregen waar alle films in The Movie Database (TMDb) zijn verzameld.'
          'Deze dataset bevat: titel, jaar van uitgave, tmdb populariteit, buget, winst, en nog eens 14 andere factoren.')
 
-st.write('Wij hebben gekeken naar:'
+st.markdown('Wij hebben gekeken naar:'
          '- Het verschil in tijdsduur tussen genres'
          '- Welke genre is het meest populaire op Netflix'
          '- In welk jaar zijn de meeste films uitgekomen'
