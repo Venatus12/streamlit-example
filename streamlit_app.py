@@ -241,7 +241,7 @@ st.write('Wanneer we naar de populariteit van alle Netflix films kijken, is te z
 # hist_combined = fig
 # plt.show()
 
-hist_combined = Image.open('hist_combined2.png')
+hist_combined = Image.open('hist_combined.png')
 st.image(hist_combined)
 
 
